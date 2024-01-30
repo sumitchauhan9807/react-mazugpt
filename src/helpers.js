@@ -10,7 +10,7 @@ export const translateText = async (toTranslateText,callback) => {
     },
     body: JSON.stringify({
       text:toTranslateText,
-      language:"hindi"
+      language:"english"
     })
   });
   if (!response.ok || !response.body) {
@@ -25,12 +25,7 @@ export const translateText = async (toTranslateText,callback) => {
       break;
     }
     const decodedChunk = decoder.decode(value, { stream: true });
-    // setResult((answer) => answer + decodedChunk);
-    // console.log(state.parentTextTranslation);
     callback(decodedChunk)
-    // dispatch({
-    //   type: "APPEND_PARENT_TEXT_TRANSLATION",
-    //   payload: decodedChunk,
-    // });
   }
+  return true
 };

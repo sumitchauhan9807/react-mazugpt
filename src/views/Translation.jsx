@@ -2,14 +2,18 @@ import React, { useState, useEffect, useReducer } from "react";
 import backgroundimage from "../assets/image/bg1.jpg";
 import {translateText} from 'src/helpers'
 import {initialState,reducer,ACTION_TYPES} from 'src/reducer'
+import Loader from 'src/components/small/Loader'
 
 const TextSlider = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
-  const translate = () => {
+  const [isLoading,setIsLoading ] = useState(false)
+  const translate = async () => {
     dispatch({ type: ACTION_TYPES.SET_PARENT_TEXT_TRANSLATION, payload: "", });
-    translateText(state.parentText,(decodedChunk) => {
+    setIsLoading(true)
+    await translateText(state.parentText,(decodedChunk) => {
       dispatch({ type: ACTION_TYPES.APPEND_PARENT_TEXT_TRANSLATION, payload: decodedChunk});
     })
+    setIsLoading(false)
   };
   return (
     <div
@@ -19,9 +23,9 @@ const TextSlider = () => {
         backgroundSize: "contain",
       }}
     >
+      {isLoading && <Loader/>}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-gray-900 to-gray-700 opacity-90 z-1"></div>{" "}
       <div className="z-0">
-        {" "}
         <h1 className="text-6xl font-black text-gray-50 italic text-center py-5 z-0">
           MAZUGPT <span className="text-yellow-500">1.0</span>
         </h1>

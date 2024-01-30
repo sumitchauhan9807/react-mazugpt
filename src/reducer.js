@@ -5,7 +5,7 @@ export const ACTION_TYPES = {
   RESET:"RESET"
 }
 export const initialState = {
-  parentText:"",
+  parentText:"Dies ist ein Übersetzer für Dialogmakers-Mitarbeiter",
   parentTextTranslation:""
 };
 export const reducer = (state, action) => {
