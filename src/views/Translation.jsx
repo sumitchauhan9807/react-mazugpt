@@ -18,7 +18,7 @@ const TextSlider = () => {
       },
       body: JSON.stringify({
         text:toTranslateText,
-        language:"german"
+        language:"hindi"
       })
     });
     if (!response.ok || !response.body) {
