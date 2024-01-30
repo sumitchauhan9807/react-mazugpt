@@ -1,5 +1,5 @@
 const production = false;
-const baseUrl = production ? "https://apigpt.mazutech.online/api" : "http://localhost:8086/api";
+export const baseUrl = production ? "https://apigpt.mazutech.online/api" : "http://localhost:8086/api";
 export const translateText = async (toTranslateText,callback) => {
   
   const response = await fetch(baseUrl, {
