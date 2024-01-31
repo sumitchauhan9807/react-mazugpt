@@ -1,4 +1,4 @@
-const production = false;
+const production = true;
 export const baseUrl = production ? "https://apigpt.mazutech.online/api" : "http://localhost:8086/api";
 export const translateText = async (toTranslateText,callback) => {
   
