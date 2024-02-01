@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "src/assets/css/common.css";
+
 import { BrowserRouter } from "react-router-dom";
 // import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 // import { transitions, positions, Provider as AlertProvider } from 'react-alert'
