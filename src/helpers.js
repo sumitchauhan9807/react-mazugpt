@@ -1,5 +1,16 @@
-const production = false;
+const production = true;
 export const baseUrl = production ? "https://apigpt.mazutech.online" : "http://localhost:8086";
+
+const getAuthToken = () => {
+  let userData = localStorage.getItem('persist:root')
+  if(userData) {
+      userData = JSON.parse(userData)
+      let user = JSON.parse(userData.user)
+      return `Bearer ${user.token}`
+  }else{
+    alert('Error')
+  }
+}
 export const translateText = async ({toTranslateText, onStream , language = 'english',operation}) => {
   try {
     const response = await fetch(`${baseUrl}/api`, {
@@ -7,6 +18,7 @@ export const translateText = async ({toTranslateText, onStream , language = 'eng
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
+        "Authorization":getAuthToken()
       },
       body: JSON.stringify({
         text: toTranslateText,

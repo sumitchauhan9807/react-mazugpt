@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useReducer } from "react";
-import backgroundimage from "../assets/image/bg1.jpg";
+import backgroundimage from "src/assets/image/bg1.jpg";
 import {translateText} from 'src/helpers'
 import {initialState,reducer,ACTION_TYPES} from 'src/reducers/reducer'
 import Loader from 'src/components/small/Loader'
 import TextDisplay from 'src/components/UI/TextDisplay'
 import Button from 'src/components/UI/Button'
 import Dropdown from "src/components/UI/DropDown";
-import Toast from 'src/components/UI/Toast'
-import { ToastContainer, toast } from "react-toastify";
+import UserNav from 'src/components/User/Navigation'
+import {useSelector,useDispatch} from 'react-redux'
+
 
 const TextSlider = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
+  const userData = useSelector((state) => state.user);
   const translateParentText = async () => {
     dispatch({ type: ACTION_TYPES.SET_PARENT_TEXT_TRANSLATION, payload: "", });
     dispatch({ type: ACTION_TYPES.SET_LOADING, payload: true, });
@@ -91,6 +93,8 @@ const TextSlider = () => {
     navigator.clipboard.writeText(value);
   }
   return (
+    <>
+     <UserNav/>
     <div
       className="flex justify-center items-center h-screen w-screen z-50"
       style={{
@@ -98,13 +102,12 @@ const TextSlider = () => {
         backgroundSize: "contain",
       }}
     >
-       <Toast/>
-      {/* {state.loading && <Loader/>} */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-gray-900 to-gray-700 opacity-90 z-1"></div>{" "}
+      
       <div className="z-0">
         <h1 className="text-6xl font-black text-gray-50 italic text-center py-5 z-0">
-          MAZUGPT <span className="text-yellow-500">1.0</span> {state.step}
+          MAZUGPT <span className="text-yellow-500">1.0</span>
         </h1>
+        <center className="mb-4" style={{color:'white'}}>Welcome back <b>{userData?.userData?.username}</b></center>
         <div className="grid grid-cols-3 z-50 gap-8 p-12 shadow-2xl rounded-2xl border-b-8 border-2 border-gray-700 bg-gray-800 ">
           <div className={`bg-gray-800 p-4   border-2 border-gray-600 rounded-2xl ${state.step == 0 && 'border-yellow-500 scale-110'}`}>
             <textarea
@@ -211,6 +214,7 @@ const TextSlider = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

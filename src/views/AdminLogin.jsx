@@ -3,7 +3,7 @@ import TextSlider from 'src/components/TextAnimation';
 import backgroundimage from '../assets/image/bg1.jpg'
 import Input from 'src/components/UI/Input'
 import {EmailSvg,PasswordSvg} from 'src/components/UI/Svg'
-import axios from 'src/axios'
+import axios ,{setAxiosToken} from 'src/axios'
 import { toast } from "react-toastify";
 import {useSelector,useDispatch} from 'react-redux'
 import {setUserData} from 'src/redux/user/userActions'
@@ -30,6 +30,7 @@ export const AdminLogin = () => {
         password:password
       })
       dispatch(setUserData(data.data,data.token,data.role))
+      setAxiosToken(data.token)
       toast.success("Loggedin Successfully !", {
         position: "top-center"
       });

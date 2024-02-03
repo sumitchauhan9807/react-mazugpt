@@ -30,4 +30,10 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
+const setAxiosToken = (token) => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 export default axios
+export {
+  setAxiosToken
+}
