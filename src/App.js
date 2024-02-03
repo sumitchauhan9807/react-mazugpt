@@ -12,6 +12,7 @@ export const App = () => {
           <ToastContainer
             autoClose={1500}
             hideProgressBar={true}
+            position={'top-center'}
           />
           <AppRouter />
         </PersistGate>

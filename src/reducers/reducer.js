@@ -19,7 +19,7 @@ export const initialState = {
   userText:"",
   userTextTranslation:"",
   rephrasedText:"",
-  userTextTranslationLang:"hindi",
+  userTextTranslationLang:"german",
   step:0,
   loading:false
 };

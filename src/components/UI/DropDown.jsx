@@ -5,10 +5,6 @@ function Dropdown({selected,itemSelect,disabled=false}) {
   const items = [{
     value:'german',
     name:'German'
-  },
-  {
-    value:'hindi',
-    name:'Hindi'
   }]
   let selectedItem = items.find(i => i.value == selected)
   return (
