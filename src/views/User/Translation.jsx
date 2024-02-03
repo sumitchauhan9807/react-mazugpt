@@ -9,6 +9,7 @@ import Dropdown from "src/components/UI/DropDown";
 import UserNav from 'src/components/User/Navigation'
 import {useSelector,useDispatch} from 'react-redux'
 import { toast } from "react-toastify";
+import {playSound} from 'src/components/AudioMedia'
 
 
 const TextSlider = () => {
@@ -94,6 +95,9 @@ const TextSlider = () => {
     navigator.clipboard.writeText(value);
     toast.success("Text copied !!")
   }
+  const playMessage = () => {
+
+  }
   return (
     <>
      <UserNav/>
@@ -138,9 +142,9 @@ const TextSlider = () => {
 
           <div className={`bg-gray-800 p-4 border-2 border-gray-600 rounded-2xl ${(state.step == 1 || state.step == 2)  && 'border-yellow-500 scale-110'}`}>
             <textarea
-              onPaste={(e)=> {e.preventDefault(); toast.error("Pasting text is disabled")}}
-              onCopy={(e)=> {e.preventDefault(); toast.error("Copying text is disabled")}}
-              onCut={(e)=> {e.preventDefault(); toast.error("Cutting text is disabled")}}
+              onPaste={(e)=> {e.preventDefault(); toast.error("Pasting text is disabled"); playSound('no_copy')}}
+              onCopy={(e)=> {e.preventDefault(); toast.error("Copying text is disabled"); playSound('no_copy')}}
+              onCut={(e)=> {e.preventDefault(); toast.error("Cutting text is disabled"); playSound('no_copy')}}
               
               value={state.userText}
               onChange={(e) => dispatch({type:ACTION_TYPES.SET_USER_TEXT,payload:e.target.value})}
