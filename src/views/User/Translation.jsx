@@ -113,7 +113,7 @@ const TextSlider = () => {
             <textarea
               value={state.parentText}
               onChange={(e) => dispatch({type:ACTION_TYPES.SET_PARENT_TEXT,payload:e.target.value})}
-              placeholder="Type or paste text here"
+              placeholder="Type/Paste your original german message here"
               rows="5"
               cols="30"
               className="w-full p-2 border border-gray-500 rounded focus:outline-none "

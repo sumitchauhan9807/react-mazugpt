@@ -14,7 +14,7 @@ export const ACTION_TYPES = {
   SET_LOADING:"SET_LOADING",
 }
 export const initialState = {
-  parentText:"Dies ist ein Übersetzer für Dialogmakers-Mitarbeiter",
+  parentText:"",
   parentTextTranslation:"",
   userText:"",
   userTextTranslation:"",
