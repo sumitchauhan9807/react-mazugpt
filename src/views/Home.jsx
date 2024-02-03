@@ -4,25 +4,14 @@ import backgroundimage from '../assets/image/bg1.jpg'
 
 
 export const Header = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); 
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    // Splash screen content
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-900" style={{ backgroundImage: `url(${backgroundimage})`, backgroundSize: 'contain' }}>
-         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-gray-900 to-gray-700 opacity-90"></div> <h1 className="text-6xl font-black text-gray-50 italic z-0">MAZUGPT <span className='text-yellow-500'>1.0</span></h1>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   // Splash screen content
+  //   return (
+  //     <div className="flex items-center justify-center h-screen bg-gray-900" style={{ backgroundImage: `url(${backgroundimage})`, backgroundSize: 'contain' }}>
+  //        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-gray-900 to-gray-700 opacity-90"></div> <h1 className="text-6xl font-black text-gray-50 italic z-0">MAZUGPT <span className='text-yellow-500'>1.0</span></h1>
+  //     </div>
+  //   );
+  // }
 
   // Main content
   return (
@@ -30,7 +19,12 @@ export const Header = () => {
    <div className="relative flex w-1/2 bg-gradient-to-tr from-gray-800 to-gray-700 i justify-around items-center" style={{ backgroundImage: `url(${backgroundimage})`, backgroundSize: 'cover' }}>
   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-gray-900 to-gray-700 opacity-90"></div>
   <div className="relative z-10">
-    <TextSlider />
+  <TextSlider 
+    slides={[
+      { title: 'MAZU GPT', description: ' One of The Best Translation AI  ' },
+      { title: 'Developed By', description: 'Dialogmakers International Ltd' },
+    ]}
+    />
   </div>
 </div>
 

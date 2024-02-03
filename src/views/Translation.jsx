@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import backgroundimage from "../assets/image/bg1.jpg";
 import {translateText} from 'src/helpers'
-import {initialState,reducer,ACTION_TYPES} from 'src/reducer'
+import {initialState,reducer,ACTION_TYPES} from 'src/reducers/reducer'
 import Loader from 'src/components/small/Loader'
 import TextDisplay from 'src/components/UI/TextDisplay'
 import Button from 'src/components/UI/Button'

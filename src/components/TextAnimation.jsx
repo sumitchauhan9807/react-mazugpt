@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const TextSlider = () => {
-  const slides = [
-    { title: 'MAZU GPT', description: ' One of The Best Translation AI  ' },
-    { title: 'Developed By', description: 'Dialogmakers International Ltd' },
-    
-  ];
-
+const TextSlider = ({slides}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
