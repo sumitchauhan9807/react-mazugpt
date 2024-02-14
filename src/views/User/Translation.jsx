@@ -10,7 +10,7 @@ import UserNav from 'src/components/User/Navigation'
 import {useSelector,useDispatch} from 'react-redux'
 import { toast } from "react-toastify";
 import {playSound} from 'src/components/AudioMedia'
-
+import axios from 'src/axios'
 
 const TextSlider = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
@@ -91,9 +91,26 @@ const TextSlider = () => {
     }
   }
 
-  const copyText = (value) => {
-    navigator.clipboard.writeText(value);
-    toast.success("Text copied !!")
+  const copyText = async (value) => {
+    try {
+      dispatch({ type: ACTION_TYPES.SET_LOADING, payload: true, });
+      let { data } = await axios.post('api/lang-test',{
+        text:value
+      })
+      dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
+
+      console.log(data)
+      if(data.toLocaleLowerCase() != 'german') {
+        toast.error("Sorry there was an error in translation. Please retry rephrasing step")
+        decrementStep(2)
+        return 
+      }
+      console.log(data)
+      navigator.clipboard.writeText(value);
+      toast.success("Text copied !!")
+    }catch(e) {
+      dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
+    }
   }
   const playMessage = () => {
 
@@ -205,7 +222,8 @@ const TextSlider = () => {
                 text={'Copy Text'}
                 clickHandler={()=> copyText(state.rephrasedText)}
                 show={state.step == 3}
-                loading={state.loading && state.step == 0}
+                loading={state.loading && state.step == 3}
+                loadingText={'Validating Language'}
               />
 
               <Button
