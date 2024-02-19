@@ -1,26 +1,65 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BreadCrumb from 'src/components/Admin/Breadcrumb'
+import {UIBtn} from 'src/components/UI/CommonUi'
 import axios from 'src/axios'
+import ChangePassword from 'src/components/Admin/ChangePassword'
+import { toast } from "react-toastify";
 function  AllUsers() {
   const [allUsers,setAllUsers] = useState([])
-  useEffect(()=>{
-    (async ()=>{
-      try {
-        let { data : {data} } = await axios.get('/admin/users')  
-        setAllUsers(data)
-        console.log(data)
-      }catch(e) {
+  const [showPasswordModal,setModal] = useState(false)
+  const [activeRow,setActiveRow] = useState(null)
 
-      }
-    })()
+
+  useEffect(()=>{
+    fetchAllUsers()
   },[])
+
+  const changeUserPassword = async (data) => {
+    console.log(activeRow.username)
+    console.log(data)
+    try {
+      await axios.patch(`/admin/user-password/${activeRow.id}`,{
+        password:data.password
+      })
+      toast.success(`Password Updated for ${activeRow.username} Successfully !!`);
+      setModal(false)
+    }catch(e) {
+      alert(e)
+    }
+  }
+
+  const fetchAllUsers = async () => {
+    try {
+      let { data : {data} } = await axios.get('/admin/users')  
+      setAllUsers(data)
+    }catch(e) {
+      alert(e)
+    }
+  }
+
+  const deleteUser = async (data) => {
+    let text = `Are you sure , you want to delete ${data.username}`;
+    if (window.confirm(text) == true) {
+      try {
+        await axios.delete(`/admin/user/${data.id}`)
+        toast.success("User deleted successfully");
+        fetchAllUsers()
+      }catch(e) {
+        alert(e)
+      }
+    }
+  }
   return (
     <>
     <BreadCrumb
       path={['Admin','All Users']}
       text={'All Users'}
     /> 
+    {showPasswordModal && <ChangePassword
+      setModal={setModal}
+      onModalData={changeUserPassword}
+    />}
 
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
     {/* <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
@@ -98,7 +137,7 @@ function  AllUsers() {
       <tbody>
         {allUsers.map((user)=>{
           return (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <tr key={user.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {user.name}
               </th>
@@ -110,7 +149,8 @@ function  AllUsers() {
               </td>
             
               <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <UIBtn onClick={()=>deleteUser(user)} text={'Delete'}></UIBtn> &nbsp;
+                <UIBtn onClick={() => { setActiveRow(user);setModal(true) }} text={'Change Password'}></UIBtn>
               </td>
            </tr>
           )
