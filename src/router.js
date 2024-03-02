@@ -9,6 +9,7 @@ import AdminLogin from "src/views/AdminLogin";
 import Dashboard from "src/views/Admin/Dashboard";
 import AllUsers from "src/views/Admin/AllUsers";
 import AddUser from 'src/views/Admin/AddUser'
+import HugginTest from 'src/views/Admin/HuggingTest'
 import { useEffect } from "react";
 import AdminSidebar from "src/components/Admin/Sidebar";
 
@@ -42,6 +43,8 @@ const AdminRoutes = () => {
             <Route exact path="/admin/dashboard" element={<Dashboard />} />
             <Route exact path="/admin/allusers" element={<AllUsers />} />
             <Route exact path="/admin/adduser" element={<AddUser />} />
+            <Route exact path="/admin/huggingtest" element={<HugginTest />} />
+
           </Routes>
         </div>
       </div>
