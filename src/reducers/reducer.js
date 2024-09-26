@@ -19,7 +19,7 @@ export const initialState = {
   userText:"",
   userTextTranslation:"",
   rephrasedText:"",
-  userTextTranslationLang:"german",
+  userTextTranslationLang:"",
   step:0,
   loading:false
 };
@@ -54,7 +54,7 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.SET_LOADING:
       return {...state,loading : action.payload }
     case ACTION_TYPES.RESET:
-      return initialState;
+      return {...initialState ,userTextTranslationLang:state.userTextTranslationLang };
     default:
       return state;
   }
