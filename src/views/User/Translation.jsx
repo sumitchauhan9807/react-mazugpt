@@ -12,6 +12,11 @@ import { toast } from "react-toastify";
 import {playSound} from 'src/components/AudioMedia'
 import axios from 'src/axios'
 
+const getLanguageFromAbb = (lang) => {
+  if(lang == 'de') return 'german'
+  if(lang == 'fr') return 'french'
+}
+
 const TextSlider = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
   const userData = useSelector((state) => state.user);
@@ -44,7 +49,7 @@ const TextSlider = () => {
         onStream:(decodedChunk)=> {
           dispatch({ type: ACTION_TYPES.APPEND_USER_TEXT_TRANSLATION, payload: decodedChunk});
         },
-        language:state.userTextTranslationLang
+        language:getLanguageFromAbb(state.userTextTranslationLang) 
       })
       dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
       dispatch({ type: ACTION_TYPES.INCREMENT_STEP });
@@ -64,7 +69,7 @@ const TextSlider = () => {
         onStream:(decodedChunk)=> {
           dispatch({ type: ACTION_TYPES.APPEND_REPHRASED_TEXT, payload: decodedChunk});
         },
-        language:state.userTextTranslationLang
+        language:getLanguageFromAbb(state.userTextTranslationLang)
       })
       dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
       dispatch({ type: ACTION_TYPES.INCREMENT_STEP });
@@ -100,7 +105,7 @@ const TextSlider = () => {
       dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
 
       console.log(data)
-      if(data.toLocaleLowerCase() != 'german') {
+      if(data.toLocaleLowerCase() != getLanguageFromAbb(state.userTextTranslationLang)) {
         toast.error("Sorry there was an error in translation. Please retry rephrasing step")
         decrementStep(2)
         return 
@@ -115,6 +120,7 @@ const TextSlider = () => {
   const playMessage = () => {
 
   }
+  if(!userData.userData) return
   return (
     <>
      <UserNav/>
@@ -128,7 +134,7 @@ const TextSlider = () => {
       
       <div className="z-0">
         <h1 className="text-6xl font-black text-gray-50 italic text-center py-5 z-0">
-          MAZUGPT <span className="text-yellow-500">1.0</span>
+          MAZUGPT <span className="text-yellow-500">1.1</span>
         </h1>
         <center className="mb-4" style={{color:'white'}}>Welcome back <b>{userData?.userData?.username}</b></center>
         <div className="grid grid-cols-3 z-50 gap-8 p-12 shadow-2xl rounded-2xl border-b-8 border-2 border-gray-700 bg-gray-800 ">
@@ -136,7 +142,7 @@ const TextSlider = () => {
             <textarea
               value={state.parentText}
               onChange={(e) => dispatch({type:ACTION_TYPES.SET_PARENT_TEXT,payload:e.target.value})}
-              placeholder="Type/Paste your original german message here"
+              placeholder="Type/Paste your original message here"
               rows="5"
               cols="30"
               className="w-full p-2 border border-gray-500 rounded focus:outline-none "
