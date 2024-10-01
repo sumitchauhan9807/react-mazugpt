@@ -140,7 +140,9 @@ const TextSlider = () => {
         <h1 className="text-6xl font-black text-gray-50 italic text-center py-5 z-0">
           MAZUGPT <span className="text-yellow-500">1.1</span>
         </h1>
-        <center className="mb-4" style={{color:'white'}}>Welcome back <b>{userData?.userData?.username}</b></center>
+        <center className="mb-4" style={{color:'white'}}>Welcome back <b>{userData?.userData?.username}</b> &nbsp;
+        {userData.userData.first_operation_lang}, {userData.userData.second_operation_lang}
+        </center>
         <div className="grid grid-cols-3 z-50 gap-8 p-12 shadow-2xl rounded-2xl border-b-8 border-2 border-gray-700 bg-gray-800 ">
           <div className={`bg-gray-800 p-4   border-2 border-gray-600 rounded-2xl ${state.step == 0 && 'border-yellow-500 scale-110'}`}>
             <textarea
@@ -183,11 +185,11 @@ const TextSlider = () => {
             />
             <br />
             
-              <Dropdown
+              {/* <Dropdown
                 selected={state.userTextTranslationLang}
                 itemSelect={(lang)=> dispatch({type:ACTION_TYPES.SET_USER_TEXT_TRANSLATION_LANG,payload:lang})}
                 disabled={state.step != 1}
-            />
+            /> */}
             
             <TextDisplay
               text={state.userTextTranslation}
@@ -225,7 +227,7 @@ const TextSlider = () => {
               text={state.rephrasedText}
               loading={state.loading && state.step == 2}
             />
-             {state.rephrasedText.length && <p style={{color:'white',fontSize:"12px",padding:"10px"}}>'Rephrased text in <b>{state.userTextTranslationLang}'</b></p>}
+             {state.rephrasedText.length && <p style={{color:'white',fontSize:"12px",padding:"10px"}}>'Rephrased text in <b>{getLanguageFromAbb(userData.userData.second_operation_lang)}'</b></p>}
             <br />
             <div className="mt-4 gap-2 flex">
             <Button
