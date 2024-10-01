@@ -15,11 +15,14 @@ import axios from 'src/axios'
 const getLanguageFromAbb = (lang) => {
   if(lang == 'de') return 'german'
   if(lang == 'fr') return 'french'
+  if(lang == 'en') return 'english'
+
 }
 
 const TextSlider = () => {
   const [state, dispatch] = useReducer(reducer,initialState);
   const userData = useSelector((state) => state.user);
+  console.log(userData)
   const translateParentText = async () => {
     dispatch({ type: ACTION_TYPES.SET_PARENT_TEXT_TRANSLATION, payload: "", });
     dispatch({ type: ACTION_TYPES.SET_LOADING, payload: true, });
@@ -27,6 +30,7 @@ const TextSlider = () => {
       await translateText({
         toTranslateText :state.parentText,
         operation:"TRANSLATE",
+        language:getLanguageFromAbb(userData.userData.first_operation_lang),
         onStream:(decodedChunk)=> {
           dispatch({ type: ACTION_TYPES.APPEND_PARENT_TEXT_TRANSLATION, payload: decodedChunk});
         }
@@ -49,7 +53,7 @@ const TextSlider = () => {
         onStream:(decodedChunk)=> {
           dispatch({ type: ACTION_TYPES.APPEND_USER_TEXT_TRANSLATION, payload: decodedChunk});
         },
-        language:getLanguageFromAbb(state.userTextTranslationLang) 
+        language:getLanguageFromAbb(userData.userData.second_operation_lang) 
       })
       dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
       dispatch({ type: ACTION_TYPES.INCREMENT_STEP });
@@ -69,7 +73,7 @@ const TextSlider = () => {
         onStream:(decodedChunk)=> {
           dispatch({ type: ACTION_TYPES.APPEND_REPHRASED_TEXT, payload: decodedChunk});
         },
-        language:getLanguageFromAbb(state.userTextTranslationLang)
+        language:getLanguageFromAbb(userData.userData.second_operation_lang)
       })
       dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
       dispatch({ type: ACTION_TYPES.INCREMENT_STEP });
@@ -105,7 +109,7 @@ const TextSlider = () => {
       dispatch({ type: ACTION_TYPES.SET_LOADING, payload: false, });
 
       console.log(data)
-      if(data.toLocaleLowerCase() != getLanguageFromAbb(state.userTextTranslationLang)) {
+      if(data.toLocaleLowerCase() != getLanguageFromAbb(userData.userData.second_operation_lang)) {
         toast.error("Sorry there was an error in translation. Please retry rephrasing step")
         decrementStep(2)
         return 

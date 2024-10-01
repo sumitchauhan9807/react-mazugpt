@@ -5,6 +5,13 @@ import {UIBtn} from 'src/components/UI/CommonUi'
 import axios from 'src/axios'
 import ChangePassword from 'src/components/Admin/ChangePassword'
 import { toast } from "react-toastify";
+const options = [
+  { label: "German", value: "de" },
+  { label: "French", value: "fr" },
+  { label: "English", value: "en" },
+];
+
+
 function  AllUsers() {
   const [allUsers,setAllUsers] = useState([])
   const [showPasswordModal,setModal] = useState(false)
@@ -51,19 +58,35 @@ function  AllUsers() {
     }
   }
 
-  const updateUserLang = async (data) => {
-    if(!data.length) return toast.error(`Please select a language`);
+  const updateUserLang = async (operation,value) => {
+    console.log(operation,value)
+    // if(!data.length) return toast.error(`Please select a language`);
     try {
-      await axios.patch(`/admin/lang/${activeRow.id}`,{
-        lang:data.map(lang => lang.value).join(",")
+      await axios.patch(`/admin/operation-langs/${activeRow.id}`,{
+        lang:value[operation],
+        operation:operation
       })
       toast.success(`Language Updated for ${activeRow.username} Successfully !!`);
       fetchAllUsers()
-      setModal(false)
+      // setModal(false)
     }catch(e) {
       alert(e)
     }
   }
+
+  // const updateUserLang = async (data) => {
+  //   if(!data.length) return toast.error(`Please select a language`);
+  //   try {
+  //     await axios.patch(`/admin/lang/${activeRow.id}`,{
+  //       lang:data.map(lang => lang.value).join(",")
+  //     })
+  //     toast.success(`Language Updated for ${activeRow.username} Successfully !!`);
+  //     fetchAllUsers()
+  //     setModal(false)
+  //   }catch(e) {
+  //     alert(e)
+  //   }
+  // }
   return (
     <>
     <BreadCrumb
@@ -91,7 +114,10 @@ function  AllUsers() {
             Email
           </th>
           <th scope="col" className="px-6 py-3">
-            Languages
+            First Operation Lang
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Second Operation Lang
           </th>
          
           <th scope="col" className="px-6 py-3">
@@ -113,7 +139,10 @@ function  AllUsers() {
                 {user.email}
               </td>
               <td className="px-6 py-4">
-                {user.langs}
+                { options.find(l => l.value == user.first_operation_lang).label  }
+              </td>
+              <td className="px-6 py-4">
+              { options.find(l => l.value == user.second_operation_lang).label  }
               </td>
             
               <td className="px-6 py-4">
