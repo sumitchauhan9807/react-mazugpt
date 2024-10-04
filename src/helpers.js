@@ -13,6 +13,9 @@ const getAuthToken = () => {
 }
 export const translateText = async ({toTranslateText, onStream , language = 'english',operation}) => {
   try {
+    if(language == 'english'){
+      language = 'US american english'
+    }
     const response = await fetch(`${baseUrl}/api`, {
       method: "POST",
       headers: {
